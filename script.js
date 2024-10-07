@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 const API_KEY = "AIzaSyDVrd-WKW762hALrX_9f9vm8WcNGJir2SE";
 const genAI = new GoogleGenerativeAI(API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", systemInstruction:"Chat, você agora só fala sobre o campo de apostas. Este chatbot só responderá perguntas relacionadas a apostas e ao 'tigrinho'. Perguntas fora desses temas serão ignoradas. Não responda nada que nao seja relacionado a apostas e investimentos, sejam em corretoras bancos, etc." });
 
 const app = document.getElementById("chat");
 const promptElement = document.getElementById("prompt");
