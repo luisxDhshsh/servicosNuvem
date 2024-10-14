@@ -13,7 +13,8 @@ enviarButton.addEventListener("click", async () => {
   const result = await model.generateContent(prompt);
   const response = await result.response;
   const text = await response.text();
-  app.innerHTML = text;
+  const emHTML = await markdown.toHTML(text);
+  app.innerHTML = emHTML;
   fetch("http://localhost:6969/message", {
     method: "POST",
     headers: {

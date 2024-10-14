@@ -20,24 +20,61 @@
     </script>
   </head>
   <body>
-    <header>
-      <h1 style="position: absolute">Tigrão das Invests</h1>
-    </header>
-    <div class="evry">
-        <div class="prompt">
-          <span id="chat"></span>
+    <div class="evry" style="display: flex">
+      <div
+        class="sideBar"
+        style="
+          width: 45vw;
+          background-color: rgb(255, 168, 183);
+          padding-left: 30px;
+        "
+      >
+        <div class="headertiger" style="display: flex; gap: 1rem;"><h1>Tigrão das Invests</h1><img width="50px" src="tiger.webp" alt=""></div>
+        <div
+          style="
+            width: 25vw;
+            height: 50px;
+            border: solid 2px black;
+            border-radius: 1rem;
+            padding-left: 10px;
+          "
+        >
+          <p>Chat dos Apostadores Natos</p>
+        </div>
+        <img style="position: absolute; bottom: 10px;" src="account.png" width="35px">
+      </div>
+      <div class="prompt" style="width: 70vw; justify-content: center">
+        <header>
+          <h1>Tigrão das Invests</h1>
+        </header>
+        <div id="chat-box">
+          <span
+            id="chat"
+            style="padding-top: 5vh; padding: 60px; text-align: justify"
+          ></span>
           <div class="search">
             <textarea
               id="prompt"
-              placeholder="digite aqui..."
-              style="resize: none"
+              placeholder="Digite aqui..."
+              style="resize: none; border-radius: 0.5rem"
             ></textarea>
-            <button type="submit" id="enviar">
+            <button
+              type="submit"
+              id="enviar"
+              style="border: none; background-color: pink"
+            >
               <span class="material-symbols-outlined"> arrow_forward </span>
             </button>
           </div>
         </div>
+      </div>
     </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/markdown.js/0.5.0/markdown.min.js"
+      integrity="sha512-kaDP6dcDG3+X87m9SnhyJzwBMKrYnd2tLJjGdBrZ9yEL8Zcl2iJRsPwylLkbd2g3QC5S8efV3sgwI5r73U0HnA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <script type="module" src="script.js"></script>
   </body>
 </html>
