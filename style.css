@@ -42,3 +42,12 @@ textarea {
     justify-content: space-between;
     height: calc(100% - 9rem);
 }
+
+@media screen and (max-width:800px){
+    .sideBar{
+        display: none !important;
+    }
+    .prompt{
+        width: 100vw !important;
+    }
+}
