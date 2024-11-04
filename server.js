@@ -18,46 +18,75 @@ const client = new MongoClient(uri, {
   },
 });
 
-mongoose.connect(uri);
+// Conectando ao MongoDB com Mongoose
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("Conectado ao MongoDB com Mongoose!"))
+  .catch(err => console.error("Erro ao conectar ao MongoDB com Mongoose:", err));
 
-const colecao = mongoose.model("AC", {
-  mensagem: String,
+// Definindo os esquemas do Mongoose
+const mensagemSchema = new mongoose.Schema({
+  mensagem: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now },
+  isGPT: { type: Boolean, default: false }
 });
-const internet_protocol = mongoose.model("DC", {
-  ip: String,
+
+const ipSchema = new mongoose.Schema({
+  ip: { type: String, required: true },
 });
+
+// Criando os modelos
+const Colecao = mongoose.model("AC", mensagemSchema);
+const InternetProtocol = mongoose.model("DC", ipSchema);
 
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
-    console.log(
-      "Pinged your deployment. You successfully connected to MongoDB!"
-    );
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
-    // Ensures that the client will close when you finish/error
     await client.close();
   }
 }
 run().catch(console.dir);
 
-app.post("/message", (req, res) => {
-  console.log(req.body);
-  const mensagem = req.body.message;
-  new colecao({
-    mensagem: mensagem,
-  }).save();
-  res.sendStatus(200);
+app.post("/message", async (req, res) => {
+  try {
+    const { message, isGPT } = req.body;
+
+    // Verificar se a mensagem está presente
+    if (!message) {
+      return res.status(400).json({ error: "O campo 'message' é obrigatório." });
+    }
+
+    const novaMensagem = new Colecao({ 
+      mensagem: message, 
+      isGPT: isGPT || false // Se isGPT não for fornecido, padrão será false
+    });
+    
+    await novaMensagem.save();
+    res.sendStatus(200);
+  } catch (error) {
+    console.error("Erro ao salvar mensagem:", error);
+    res.sendStatus(500);
+  }
 });
-app.post("/acesso", (req, res) => {
-  console.log(req.body);
-  const ip = req.body.ip;
-  new internet_protocol({
-    ip: ip,
-  }).save();
-  res.sendStatus(200);
+
+app.post("/acesso", async (req, res) => {
+  try {
+    const { ip } = req.body;
+
+    // Verificar se o IP está presente
+    if (!ip) {
+      return res.status(400).json({ error: "O campo 'ip' é obrigatório." });
+    }
+
+    const novoIP = new InternetProtocol({ ip });
+    await novoIP.save();
+    res.sendStatus(200);
+  } catch (error) {
+    console.error("Erro ao salvar IP:", error);
+    res.sendStatus(500);
+  }
 });
 
 app.listen(6969, () => {

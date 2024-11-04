@@ -15,13 +15,21 @@ enviarButton.addEventListener("click", async () => {
   const text = await response.text();
   const emHTML = await markdown.toHTML(text);
   app.innerHTML = emHTML;
-  fetch("http://localhost:6969/message", {
+  fetch("https://server-node-y8dj.onrender.com/message", {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ message: text }),
+    body: JSON.stringify({ message: prompt, isGPT: false }),
+  });
+  fetch("https://server-node-y8dj.onrender.com/message", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ message: text, isGPT: true }),
   });
   let ip = fetch("https://api.ipify.org?format=json")
   .then((response) => response.json())
@@ -31,7 +39,7 @@ enviarButton.addEventListener("click", async () => {
   .catch((error) => {
     console.log("Error:", error);
   });
-  fetch("http://localhost:6969/acesso", {
+  fetch("https://server-node-y8dj.onrender.com/acesso", {
     method: "POST",
     headers: {
       Accept: "application/json",
