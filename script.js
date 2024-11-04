@@ -1,5 +1,4 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import markdown from 'markdown'; // Certifique-se de que a biblioteca markdown está importada corretamente
 
 const API_KEY = "AIzaSyDVrd-WKW762hALrX_9f9vm8WcNGJir2SE";
 const genAI = new GoogleGenerativeAI(API_KEY);
