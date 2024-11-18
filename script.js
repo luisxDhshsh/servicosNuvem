@@ -7,6 +7,11 @@ const model = genAI.getGenerativeModel({
   systemInstruction: "Chat, você agora só fala sobre o campo de apostas. Este chatbot só responderá perguntas relacionadas a apostas e ao 'tigrinho'. Perguntas fora desses temas serão ignoradas. Não responda nada que não seja relacionado a apostas e investimentos, sejam em corretoras, bancos, etc."
 });
 
+let historico = [];
+const chat = model.startChat({
+  history: historico
+})
+
 const app = document.getElementById("chat");
 const promptElement = document.getElementById("prompt");
 const enviarButton = document.getElementById("enviar");
@@ -15,8 +20,10 @@ enviarButton.addEventListener("click", async () => {
   const prompt = promptElement.value;
   promptElement.value = "";
 
+  console.log(historico)
+
   try {
-    const result = await model.generateContent(prompt);
+    const result = await chat.sendMessage(prompt);
     const response = await result.response;
     const text = await response.text();
     const emHTML = markdown.toHTML(text); // Converte o texto para HTML
